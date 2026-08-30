@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venkata Anudeep — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0908;
+    --void-2:#121110;
+    --crimson:#7a0f1c;
+    --crimson-2:#4a0812;
+    --ember:#d9542b;
+    --gold:#c9a227;
+    --gold-hi:#e8cf7a;
+    --steel:#3a3a3e;
+    --steel-line:#2a2a2d;
+    --bone:#ece6d8;
+    --muted:#8b8680;
+    --bar-h: 8vh;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:'Barlow', sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--crimson);color:var(--bone);}
+
+  /* film grain overlay */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:998;
+    opacity:0.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .vignette{
+    position:fixed;inset:0;pointer-events:none;z-index:997;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%);
+  }
+
+  /* letterbox bars */
+  .bar{
+    position:fixed;left:0;right:0;height:var(--bar-h);
+    background:#050505;
+    z-index:999;
+    display:flex;align-items:center;
+    font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:0.18em;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    border-color: var(--steel-line);
+  }
+  .bar-top{top:0;border-bottom:1px solid var(--steel-line);justify-content:space-between;padding:0 5vw;}
+  .bar-bottom{bottom:0;border-top:1px solid var(--steel-line);justify-content:space-between;padding:0 5vw;}
+  .bar span.dot{color:var(--ember);}
+  .bar .tc{font-variant-numeric:tabular-nums;color:var(--gold-hi);}
+
+  main{padding-top:var(--bar-h);padding-bottom:var(--bar-h);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;position:relative;
+    padding:8vh 5vw;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 38%, rgba(122,15,28,0.35), transparent 65%),
+      linear-gradient(180deg, #0a0908 0%, #100c0c 55%, #0a0908 100%);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(201,162,39,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,162,39,0.045) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 60% 50% at 50% 40%, black, transparent 75%);
+    opacity:0.5;
+  }
+  .presents{
+    font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:0.55em;font-size:12px;color:var(--muted);
+    text-transform:uppercase;margin-bottom:2.2rem;
+    opacity:0;animation:fadeUp 1s ease forwards 0.2s;
+  }
+  .hero-name{
+    font-family:'Cinzel',serif;
+    font-weight:900;
+    font-size:clamp(3.2rem, 11vw, 9.5rem);
+    line-height:0.92;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    background:linear-gradient(180deg, #f3e6b0 0%, var(--gold) 38%, #8a6c14 55%, var(--gold-hi) 70%, #b98f22 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 28px rgba(201,162,39,0.28)) drop-shadow(0 4px 0 rgba(0,0,0,0.6));
+    opacity:0;animation:fadeUp 1.1s ease forwards 0.45s;
+    position:relative;
+  }
+  .hero-name .last{display:block;color:var(--bone);-webkit-text-fill-color:var(--bone);
+    background:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,0.6));
+    font-size:clamp(2rem, 6.5vw, 5.2rem);letter-spacing:0.3em;margin-top:0.3rem;
+  }
+  .tagline{
+    margin-top:2.4rem;max-width:640px;
+    font-family:'Barlow',sans-serif;font-weight:400;font-style:italic;
+    font-size:clamp(0.95rem,1.6vw,1.25rem);color:var(--bone);opacity:0;
+    animation:fadeUp 1s ease forwards 0.85s;
+    line-height:1.6;
+  }
+  .credits-line{
+    margin-top:2.8rem;font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:0.28em;text-transform:uppercase;font-size:11px;color:var(--muted);
+    display:flex;gap:2.2rem;flex-wrap:wrap;justify-content:center;
+    opacity:0;animation:fadeUp 1s ease forwards 1.1s;
+  }
+  .credits-line b{color:var(--gold-hi);font-weight:600;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+  .scroll-cue{
+    position:absolute;bottom:6vh;left:50%;transform:translateX(-50%);
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:0.3em;font-size:10px;
+    color:var(--muted);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px;
+    opacity:0;animation:fadeUp 1s ease forwards 1.4s;
+  }
+  .scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--gold),transparent);animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+  /* ---------- CHAPTER HEADERS ---------- */
+  .chapter{
+    padding:14vh 8vw 10vh;position:relative;
+    border-top:1px solid var(--steel-line);
+  }
+  .chapter-head{
+    display:flex;align-items:baseline;gap:1.4rem;margin-bottom:4.5rem;
+    flex-wrap:wrap;
+  }
+  .chapter-num{
+    font-family:'Cinzel',serif;font-weight:700;font-size:1rem;color:var(--ember);
+    letter-spacing:0.15em;
+  }
+  .chapter-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(2.4rem,6vw,4.6rem);
+    letter-spacing:0.06em;color:var(--bone);
+    line-height:1;
+    text-shadow:0 2px 24px rgba(0,0,0,0.6);
+  }
+  .chapter-sub{
+    font-family:'Barlow Condensed',sans-serif;color:var(--muted);
+    letter-spacing:0.22em;text-transform:uppercase;font-size:11.5px;
+    margin-top:0.6rem;width:100%;
+  }
+  .rule{
+    height:1px;width:64px;background:var(--gold);margin-top:1.4rem;
+  }
+
+  /* ---------- ABOUT / ORIGIN ---------- */
+  .origin-grid{
+    display:grid;grid-template-columns:1fr;gap:3rem;
+    max-width:900px;
+  }
+  .origin-grid p{
+    font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.85;color:#cfc9bd;font-weight:300;
+  }
+  .origin-grid p b{color:var(--gold-hi);font-weight:600;}
+  .stat-row{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:1.6rem;margin-top:3rem;max-width:760px;
+  }
+  .stat{
+    border:1px solid var(--steel-line);padding:1.4rem 1.2rem;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .stat .n{font-family:'Cinzel',serif;font-weight:700;font-size:2rem;color:var(--gold-hi);}
+  .stat .l{font-family:'Barlow Condensed',sans-serif;letter-spacing:0.18em;text-transform:uppercase;font-size:10.5px;color:var(--muted);margin-top:0.3rem;}
+
+  /* ---------- ARSENAL / SKILLS ---------- */
+  .arsenal-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;
+    background:var(--steel-line);border:1px solid var(--steel-line);
+  }
+  .weapon{
+    background:var(--void);padding:2rem 1.6rem;position:relative;
+    transition:background 0.35s ease;
+  }
+  .weapon:hover{background:#141110;}
+  .weapon .wcat{
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:0.22em;text-transform:uppercase;
+    font-size:10px;color:var(--ember);margin-bottom:0.9rem;
+  }
+  .weapon h3{
+    font-family:'Cinzel',serif;font-weight:700;font-size:1.15rem;color:var(--bone);margin-bottom:0.7rem;
+  }
+  .weapon p{font-size:0.85rem;color:var(--muted);line-height:1.6;font-weight:300;}
+
+  /* ---------- MISSIONS / PROJECTS ---------- */
+  .mission-list{display:flex;flex-direction:column;gap:1px;background:var(--steel-line);border:1px solid var(--steel-line);}
+  .mission{
+    background:var(--void);padding:3rem 2.4rem;display:grid;
+    grid-template-columns:80px 1fr auto;gap:2rem;align-items:center;
+    position:relative;overflow:hidden;transition:background .4s ease;
+  }
+  .mission:hover{background:#141110;}
+  .mission:hover .mission-glow{opacity:1;}
+  .mission-glow{
+    position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s ease;
+    background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(122,15,28,0.18), transparent 40%);
+  }
+  .mission-id{font-family:'Cinzel',serif;color:var(--steel);font-size:2.4rem;font-weight:900;}
+  .mission-body h3{
+    font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:0.03em;color:var(--bone);margin-bottom:0.6rem;
+  }
+  .mission-body p{color:var(--muted);font-size:0.92rem;line-height:1.65;font-weight:300;max-width:600px;}
+  .mission-tags{display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;}
+  .mission-tags span{
+    font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+    border:1px solid var(--steel-line);color:var(--gold-hi);padding:0.3rem 0.7rem;
+  }
+  .mission-link{
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:0.18em;text-transform:uppercase;font-size:11px;
+    color:var(--gold);white-space:nowrap;border:1px solid var(--gold);padding:0.7rem 1.2rem;
+    transition:all .3s ease;text-decoration:none;
+  }
+  .mission-link:hover{background:var(--gold);color:var(--void);}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative;max-width:760px;padding-left:2.4rem;}
+  .timeline::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(var(--gold),var(--steel-line));}
+  .tl-item{position:relative;padding-bottom:3.4rem;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";position:absolute;left:-2.4rem;top:0.35rem;width:9px;height:9px;
+    background:var(--void);border:2px solid var(--ember);transform:rotate(45deg);
+  }
+  .tl-year{font-family:'Barlow Condensed',sans-serif;letter-spacing:0.2em;color:var(--ember);font-size:12px;text-transform:uppercase;margin-bottom:0.4rem;}
+  .tl-item h3{font-family:'Cinzel',serif;font-size:1.25rem;color:var(--bone);margin-bottom:0.5rem;}
+  .tl-item p{color:var(--muted);font-size:0.9rem;line-height:1.7;font-weight:300;max-width:560px;}
+
+  /* ---------- CONTACT / TRANSMISSION ---------- */
+  .transmission{
+    text-align:center;padding-top:8vh;
+  }
+  .transmission .chapter-head{justify-content:center;text-align:center;flex-direction:column;align-items:center;}
+  .transmission .rule{margin-left:auto;margin-right:auto;}
+  .signal{
+    font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--gold-hi);
+    max-width:760px;margin:0 auto 2.5rem;line-height:1.4;
+  }
+  .contact-grid{
+    display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:1rem;
+  }
+  .contact-btn{
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:0.18em;text-transform:uppercase;font-size:12px;
+    color:var(--bone);border:1px solid var(--steel-line);padding:1rem 2rem;text-decoration:none;
+    transition:all .3s ease;position:relative;
+  }
+  .contact-btn.primary{background:var(--crimson);border-color:var(--crimson);}
+  .contact-btn:hover{border-color:var(--gold);color:var(--gold-hi);}
+  .contact-btn.primary:hover{background:var(--ember);border-color:var(--ember);color:var(--void);}
+
+  footer{
+    text-align:center;padding:4rem 5vw 2rem;
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:0.2em;text-transform:uppercase;
+    font-size:10px;color:var(--steel);
+  }
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease, transform 0.9s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (max-width:640px){
+    .mission{grid-template-columns:1fr;gap:1rem;}
+    .mission-id{font-size:1.6rem;}
+    .mission-link{justify-self:start;}
+    .bar{font-size:9px;padding:0 4vw;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+  }
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="bar bar-top">
+  <span>REEL 01 — PORTFOLIO.SYS</span>
+  <span class="tc" id="timecode">00:00:00:00</span>
+  <span><span class="dot">●</span> REC</span>
+</div>
+<div class="bar bar-bottom">
+  <span>DIR. VENKATA ANUDEEP</span>
+  <span>ASPECT 2.39:1</span>
+  <span id="scrollpct">SCENE 00%</span>
+</div>
+
+<main>
+
+  <section class="hero">
+    <div class="presents">A Full-Stack Production</div>
+    <h1 class="hero-name">Venkata<span class="last">Anudeep</span></h1>
+    <p class="tagline">"When the build breaks and the deadline doesn't move — one engineer holds the line between chaos and a clean deploy."</p>
+    <div class="credits-line">
+      <span>Starring <b>Software Engineer</b></span>
+      <span>Featuring <b>Full-Stack Development</b></span>
+      <span>Runtime <b>Always Shipping</b></span>
+    </div>
+    <div class="scroll-cue"><span>Begin Screening</span><span class="line"></span></div>
+  </section>
+
+  <section class="chapter" id="origin">
+    <div class="chapter-head">
+      <span class="chapter-num">CHAPTER I</span>
+      <h2 class="chapter-title reveal">Origin Story</h2>
+      <span class="chapter-sub">How it started</span>
+      <div class="rule"></div>
+    </div>
+    <div class="origin-grid reveal">
+      <p>Every origin story needs an inciting incident. Mine was a broken script that refused to run at 2 a.m. — and the stubborn refusal to close the laptop until it did. That night turned into a career built on <b>solving hard problems methodically</b>, shipping software that holds up under pressure, and treating every bug as a plot twist worth chasing down.</p>
+      <p>Since then the mission has stayed the same: write code that's <b>clean enough to read, fast enough to trust, and built to survive contact</b> with real users. No capes required — just good architecture, sharper debugging instincts, and a refusal to leave things half-finished.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="n">5+</div><div class="l">Years in the field</div></div>
+        <div class="stat"><div class="n">30+</div><div class="l">Missions shipped</div></div>
+        <div class="stat"><div class="n">100%</div><div class="l">Deadlines respected</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="arsenal">
+    <div class="chapter-head">
+      <span class="chapter-num">CHAPTER II</span>
+      <h2 class="chapter-title reveal">The Arsenal</h2>
+      <span class="chapter-sub">Tools of the trade</span>
+      <div class="rule"></div>
+    </div>
+    <div class="arsenal-grid reveal">
+      <div class="weapon">
+        <div class="wcat">Frontend</div>
+        <h3>React / Next.js</h3>
+        <p>Interfaces built for speed, clarity, and interaction that feels inevitable.</p>
+      </div>
+      <div class="weapon">
+        <div class="wcat">Backend</div>
+        <h3>Node.js / Python</h3>
+        <p>APIs and services engineered to hold under real-world load.</p>
+      </div>
+      <div class="weapon">
+        <div class="wcat">Data</div>
+        <h3>SQL / MongoDB</h3>
+        <p>Schemas that scale, queries that don't buckle under pressure.</p>
+      </div>
+      <div class="weapon">
+        <div class="wcat">Cloud</div>
+        <h3>AWS / Docker</h3>
+        <p>Infrastructure that deploys clean and recovers cleaner.</p>
+      </div>
+      <div class="weapon">
+        <div class="wcat">Language</div>
+        <h3>JavaScript / TypeScript</h3>
+        <p>Type-safe code built to prevent tomorrow's bugs today.</p>
+      </div>
+      <div class="weapon">
+        <div class="wcat">Craft</div>
+        <h3>System Design</h3>
+        <p>Architecture decisions made for the sequel, not just the opening scene.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="missions">
+    <div class="chapter-head">
+      <span class="chapter-num">CHAPTER III</span>
+      <h2 class="chapter-title reveal">The Missions</h2>
+      <span class="chapter-sub">Selected work</span>
+      <div class="rule"></div>
+    </div>
+    <div class="mission-list reveal">
+      <div class="mission" data-tilt>
+        <div class="mission-glow"></div>
+        <div class="mission-id">01</div>
+        <div class="mission-body">
+          <h3>Project Codename — Nexus</h3>
+          <p>A full-stack platform built to unify scattered workflows into one clean command center, from data intake to real-time dashboards.</p>
+          <div class="mission-tags"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
+        </div>
+        <a href="#" class="mission-link">View Reel →</a>
+      </div>
+      <div class="mission" data-tilt>
+        <div class="mission-glow"></div>
+        <div class="mission-id">02</div>
+        <div class="mission-body">
+          <h3>Project Codename — Vantage</h3>
+          <p>An analytics engine that turns raw operational data into decisions teams can act on the same day.</p>
+          <div class="mission-tags"><span>Next.js</span><span>Python</span><span>AWS</span></div>
+        </div>
+        <a href="#" class="mission-link">View Reel →</a>
+      </div>
+      <div class="mission" data-tilt>
+        <div class="mission-glow"></div>
+        <div class="mission-id">03</div>
+        <div class="mission-body">
+          <h3>Project Codename — Ironline</h3>
+          <p>A resilient e-commerce backend engineered to hold firm through traffic spikes and flash sales alike.</p>
+          <div class="mission-tags"><span>TypeScript</span><span>Docker</span><span>MongoDB</span></div>
+        </div>
+        <a href="#" class="mission-link">View Reel →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="timeline">
+    <div class="chapter-head">
+      <span class="chapter-num">CHAPTER IV</span>
+      <h2 class="chapter-title reveal">The Timeline</h2>
+      <span class="chapter-sub">Career continuity</span>
+      <div class="rule"></div>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-year">Present</div>
+        <h3>Software Engineer</h3>
+        <p>Leading feature builds end-to-end — from architecture decisions to production deploys — on products used daily by real teams.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Previously</div>
+        <h3>Full-Stack Developer</h3>
+        <p>Built and shipped customer-facing applications, owning both the interface and the systems running underneath it.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Origin</div>
+        <h3>Where it began</h3>
+        <p>First lines of code, first broken builds, first "it finally works" — the moment the mission started.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter transmission" id="contact">
+    <div class="chapter-head">
+      <span class="chapter-num">FINAL CHAPTER</span>
+      <h2 class="chapter-title reveal">Open Transmission</h2>
+      <span class="chapter-sub">Get in touch</span>
+      <div class="rule"></div>
+    </div>
+    <p class="signal reveal">Got a mission worth building? The line is open.</p>
+    <div class="contact-grid reveal">
+      <a href="mailto:venkata.anudeep@example.com" class="contact-btn primary">Send a Transmission</a>
+      <a href="#" class="contact-btn">LinkedIn</a>
+      <a href="#" class="contact-btn">GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>Produced &amp; Engineered by Venkata Anudeep — All Systems Operational</footer>
+
+<script>
+  // reveal on scroll
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  items.forEach(i=>io.observe(i));
+
+  // fake running timecode in top bar
+  let frame = 0;
+  function pad(n){return String(n).padStart(2,'0');}
+  setInterval(()=>{
+    frame++;
+    const f = frame % 24;
+    const s = Math.floor(frame/24) % 60;
+    const m = Math.floor(frame/24/60) % 60;
+    const h = Math.floor(frame/24/60/60);
+    document.getElementById('timecode').textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
+  }, 1000/24);
+
+  // scroll progress in bottom bar
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const pct = Math.round((h.scrollTop)/(h.scrollHeight - h.clientHeight)*100);
+    document.getElementById('scrollpct').textContent = `SCENE ${isNaN(pct)?0:pct}%`;
+  });
+
+  // mission card mouse glow
+  document.querySelectorAll('.mission').forEach(m=>{
+    m.addEventListener('mousemove', e=>{
+      const r = m.getBoundingClientRect();
+      m.style.setProperty('--mx', (e.clientX-r.left)+'px');
+      m.style.setProperty('--my', (e.clientY-r.top)+'px');
+    });
+  });
+</script>
+
+</body>
+</html>
